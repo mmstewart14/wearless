@@ -1,8 +1,10 @@
 from utils.s3.get_encoded_image import get_encoded_image
 from openai import OpenAI
 from dotenv import load_dotenv
+from datetime import datetime
 import json
 import os
+import uuid
 
 
 load_dotenv()
@@ -11,20 +13,29 @@ load_dotenv()
 class Outfit:
     def __init__(
         self,
+        id: str,
         items: list[str],
         seasons: list[str],
         styles: list[str],
         occasions: list[str],
+        sourceImageKey: str,
         name: str,
+        createdOn: str,
     ):
+        self.id = id
         self.items = items
         self.seasons = seasons
         self.styles = styles
         self.occasions = occasions
+        self.sourceImageKey = sourceImageKey
         self.name = name
+        self.createdOn = createdOn
+
+    def to_json(self):
+        return self.__dict__
 
 
-def classify_outfit(base64_image: str) -> Outfit | None:
+def classify_outfit(base64_image: str, image_key: str) -> Outfit | None:
     """
     Classifies the items, seasons, styles, and occassions of an image depicting an outfit.
 
@@ -95,11 +106,14 @@ def classify_outfit(base64_image: str) -> Outfit | None:
             # total_tokens = response.usage.total_tokens
 
             return Outfit(
+                id=str(uuid.uuid4()),
                 items=message_content["items"],
                 seasons=message_content["seasons"],
                 styles=message_content["styles"],
                 occasions=message_content["occasions"],
+                sourceImageKey=image_key,
                 name=message_content["name"],
+                createdOn=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             )
 
         else:
