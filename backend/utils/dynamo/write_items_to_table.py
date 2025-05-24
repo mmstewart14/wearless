@@ -1,4 +1,3 @@
-import json
 import boto3
 from classification.classify_outfit import Outfit
 

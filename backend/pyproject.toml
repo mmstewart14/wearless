@@ -8,4 +8,5 @@ dependencies = [
     "boto3>=1.36.21",
     "openai>=1.63.0",
     "python-dotenv>=1.0.1",
+    "uuid>=1.30",
 ]
