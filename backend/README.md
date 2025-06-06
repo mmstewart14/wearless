@@ -6,6 +6,10 @@
 
 2.  Install the AWS Toolkit Extension and [Authenicate with IAM Credentials](https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/setup-credentials.html)
 
+    - Command Palette > AWS: Add a New Connection
+
+    - Enter your credentials with the Profile Name: 'default'
+
     - Find your `.aws` folder and create a new `config` file there with the following contents:
 
     ```
@@ -25,7 +29,7 @@
 
       ```bash
       $ uv venv
-      $ source .venv/Scripts/activate
+      $ source .venv/bin/activate
       $ uv sync
       ```
 
