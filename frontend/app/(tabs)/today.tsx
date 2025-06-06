@@ -1,11 +1,24 @@
-import { View } from "react-native"
-import { Image, StyleSheet } from "react-native"
-import { Text } from "react-native-paper"
-import { Appbar } from "react-native-paper"
-import { SafeAreaView } from "react-native-safe-area-context"
+import getTodaysOutfit from "@/services/getTodaysOutfit";
+import { useEffect, useState } from "react";
+import { View } from "react-native";
+import { Image, StyleSheet } from "react-native";
+import { Text } from "react-native-paper";
+import { Appbar } from "react-native-paper";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function TodaysOutfit() {
-  const goBack = () => console.log("Went back")
+  const goBack = () => console.log("Went back");
+
+  const [todaysOutfit, setTodaysOutfit] = useState();
+
+  useEffect(() => {
+    const getOutfit = async () => {
+      const response = await getTodaysOutfit();
+      setTodaysOutfit(response);
+    };
+
+    // getOutfit();
+  }, []);
 
   return (
     <View style={styles.view}>
@@ -14,7 +27,7 @@ export default function TodaysOutfit() {
       </Appbar.Header>
       <Image
         source={{
-          uri: "https://i.pinimg.com/736x/b1/5f/2f/b15f2f2b23423e0d6e9159420670a934.jpg",
+          uri: `https://wearless.s3.us-east-2.amazonaws.com/${todaysOutfit?.sourceImageKey}`,
         }}
         style={styles.outfitImage}
       />
@@ -42,7 +55,7 @@ export default function TodaysOutfit() {
         
       </ParallaxScrollView> */}
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -62,4 +75,4 @@ const styles = StyleSheet.create({
   content: {
     padding: 12,
   },
-})
+});
